@@ -39,6 +39,9 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "bootstrap": "yarn example && yarn install"
+    "clean": "del-cli dest",
+    "build": "yarn clean && yarn build:bob",
+    "prepare": "yarn build"
   },
   "keywords": [
     "react-native",
