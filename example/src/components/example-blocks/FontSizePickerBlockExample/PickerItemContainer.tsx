@@ -18,11 +18,33 @@ const PickerItemContainer = ({
   const offset = useScrollContentOffset();
   const height = usePickerItemHeight();
 
-  const inputRange = useMemo(() => faces.map((f) => height * (index + f.index)), [faces, height, index]);
+  const inputRange = useMemo(
+    () => faces.map((f) => height * (index + f.index)),
+    [faces, height, index],
+  );
 
   const {opacity, rotateX, translateY, scale} = useMemo(() => {
     const getScale = (faceIndex: number) =>
       Math.max(MIN_SCALE, MAX_SCALE - STEP_DECREASE * Math.abs(faceIndex));
+
+    const scales = faces.map((x) => getScale(x.index));
+
+    const baseTranslateY = offset.interpolate({
+      inputRange,
+      outputRange: faces.map((x) => x.offsetY),
+      extrapolate: 'extend',
+    });
+
+    const scaleAnim = offset.interpolate({
+      inputRange,
+      outputRange: scales,
+      extrapolate: 'clamp',
+    });
+
+    const translateYAnim = Animated.add(
+      baseTranslateY,
+      Animated.multiply(Animated.add(scaleAnim, -1), -height / 2),
+    );
 
     return {
       opacity: offset.interpolate({
@@ -35,18 +57,10 @@ const PickerItemContainer = ({
         outputRange: faces.map((x) => `${x.deg}deg`),
         extrapolate: 'extend',
       }),
-      translateY: offset.interpolate({
-        inputRange,
-        outputRange: faces.map((x) => x.offsetY),
-        extrapolate: 'extend',
-      }),
-      scale: offset.interpolate({
-        inputRange,
-        outputRange: faces.map((x) => getScale(x.index)),
-        extrapolate: 'clamp',
-      }),
+      translateY: translateYAnim,
+      scale: scaleAnim,
     };
-  }, [faces, height, index, offset, inputRange]);
+  }, [faces, height, offset, inputRange]);
 
   return (
     <Animated.View
