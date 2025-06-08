@@ -142,6 +142,14 @@ const Picker = <ItemT extends PickerItem<any>>({
           testID={testID}
           style={[styles.root, style, {height: pickerHeight, width}]}
         >
+          {renderOverlay &&
+            renderOverlay({
+              itemHeight,
+              pickerWidth: width,
+              pickerHeight,
+              overlayItemStyle,
+            })}
+          
           {renderList({
             ...restProps,
             ref: listRef,
@@ -160,13 +168,6 @@ const Picker = <ItemT extends PickerItem<any>>({
             onScrollEnd,
             contentContainerStyle,
           })}
-          {renderOverlay &&
-            renderOverlay({
-              itemHeight,
-              pickerWidth: width,
-              pickerHeight,
-              overlayItemStyle,
-            })}
         </View>
       </PickerItemHeightContext.Provider>
     </ScrollContentOffsetContext.Provider>
