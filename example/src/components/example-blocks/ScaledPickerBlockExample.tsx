@@ -4,6 +4,7 @@ import WheelPicker, {
   type ValueChangedEvent,
 } from '@quidone/react-native-wheel-picker';
 import {useInit} from '@rozhkov/react-useful-hooks';
+import {View} from 'react-native';
 import {withExamplePickerConfig} from '../../picker-config';
 import {Header} from '../base';
 
@@ -27,24 +28,26 @@ const ScaledPicker = () => {
   return (
     <>
       <Header title={'Scaled Picker'} />
-      <ExampleWheelPicker
-        data={data}
-        itemHeight={128}
-        itemTextStyle={{
-          fontSize: 72,
-          fontWeight: 'bold',
-        }}
-        overlayItemStyle={{
-          opacity: 1,
-          backgroundColor: '#F0F',
-          borderWidth: 8,
-          borderColor: '#0000FF',
-          borderRadius: 128,
-        }}
-        value={value}
-        onValueChanged={onValueChanged}
-        width={300}
-      />
+      <View style={{backgroundColor: 'gray'}}>
+        <ExampleWheelPicker
+          data={data}
+          itemHeight={108}
+          itemTextStyle={{
+            fontSize: 72,
+            fontWeight: 'bold',
+          }}
+          overlayItemStyle={{
+            opacity: 1,
+            backgroundColor: '#F0F',
+            borderWidth: 8,
+            borderColor: '#0000FF',
+            borderRadius: 128,
+          }}
+          value={value}
+          onValueChanged={onValueChanged}
+          width={250}
+        />
+      </View>
     </>
   );
 };

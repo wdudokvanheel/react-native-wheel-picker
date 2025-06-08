@@ -63,14 +63,18 @@ const PickerItemContainer = ({
     const inputRange = faces.map((f) => height * (index + f.index));
     const outputRange = faces.map((f) => {
       switch (f.index) {
+        case -3:
+          return -70;
         case -2:
-          return 60;
+          return -50;
         case -1:
-          return 30;
+          return -20;
         case 1:
-          return -30;
+          return 20;
         case 2:
-          return -60;
+          return 50;
+        case 3:
+          return 70;
         default:
           return 0;
       }
@@ -96,7 +100,7 @@ const PickerItemContainer = ({
           transform: [
             // first translateY, then rotateX for correct transformation.
             {translateY: finalTranslateY},
-            {rotateX},
+            // {rotateX},
             {perspective: 1000}, // without this line this Animation will not render on Android https://reactnative.dev/docs/animations#bear-in-mind
           ],
         },
