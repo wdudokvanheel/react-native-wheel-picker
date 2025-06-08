@@ -44,6 +44,21 @@ const PickerItemContainer = ({
     };
   }, [faces, height, index, offset]);
 
+  const scale = useMemo(() => {
+    const getScale = (i: number) => {
+      const map: Record<number, number> = {0: 1, 1: 0.6, 2: 0.3};
+      return map[i] ?? 0.3;
+    };
+
+    const inputRange = faces.map((f) => height * (index + f.index));
+    const outputRange = faces.map((f) => getScale(Math.abs(f.index)));
+    return offset.interpolate({
+      inputRange,
+      outputRange,
+      extrapolate: 'clamp',
+    });
+  }, [faces, height, index, offset]);
+
   return (
     <Animated.View
       style={[
@@ -53,6 +68,7 @@ const PickerItemContainer = ({
           transform: [
             {translateY}, // first translateY, then rotateX for correct transformation.
             {rotateX},
+            {scale},
             {perspective: 1000}, // without this line this Animation will not render on Android https://reactnative.dev/docs/animations#bear-in-mind
           ],
         },
