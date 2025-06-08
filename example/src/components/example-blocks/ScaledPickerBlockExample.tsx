@@ -1,13 +1,14 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import WheelPicker, {
   PickerItem,
   type ValueChangedEvent,
   type RenderItem,
   usePickerItemHeight,
+  useScrollContentOffset,
 } from '@quidone/react-native-wheel-picker';
 import type {TextStyle, StyleProp} from 'react-native';
 import {useInit} from '@rozhkov/react-useful-hooks';
-import {View, Text} from 'react-native';
+import {View, Animated} from 'react-native';
 import {withExamplePickerConfig} from '../../picker-config';
 import {Header} from '../base';
 
@@ -19,23 +20,31 @@ const createPickerItem = (index: number): PickerItem<number> => ({
 
 const Item = ({
   item: {value: itemValue, label},
+  index,
   itemTextStyle,
-  isSelected,
 }: {
   item: PickerItem<number>;
+  index: number;
   itemTextStyle: StyleProp<TextStyle> | undefined;
-  isSelected: boolean;
 }) => {
   const height = usePickerItemHeight();
+  const offset = useScrollContentOffset();
+  const color = useMemo(
+    () =>
+      offset.interpolate({
+        inputRange: [height * (index - 1), height * index, height * (index + 1)],
+        outputRange: ['black', 'red', 'black'],
+        extrapolate: 'clamp',
+      }),
+    [height, index, offset],
+  );
+
   return (
-    <Text
-      style={[
-        {lineHeight: height, textAlign: 'center', color: isSelected ? 'red' : 'black'},
-        itemTextStyle,
-      ]}
+    <Animated.Text
+      style={[{lineHeight: height, textAlign: 'center', color}, itemTextStyle]}
     >
       {label ?? itemValue}
-    </Text>
+    </Animated.Text>
   );
 };
 
@@ -51,13 +60,8 @@ const ScaledPicker = () => {
   );
 
   const renderItem: RenderItem<PickerItem<number>> = useCallback(
-    (props) => (
-      <Item
-        {...props}
-        isSelected={props.item.value === value}
-      />
-    ),
-    [value],
+    (props) => <Item {...props} />,
+    [],
   );
 
   return (
