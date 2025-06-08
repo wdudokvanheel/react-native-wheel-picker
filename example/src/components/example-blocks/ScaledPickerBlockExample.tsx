@@ -41,6 +41,7 @@ const ScaledPicker = () => {
           borderColor: '#0000FF',
           borderRadius: 128,
         }}
+        style={{marginVertical: -90}}
         value={value}
         onValueChanged={onValueChanged}
         width={300}

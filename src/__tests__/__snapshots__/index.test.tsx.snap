@@ -17,6 +17,39 @@ exports[`WheelPicker should match snapshot 1`] = `
   }
   testID="wheel-picker"
 >
+  <View
+    pointerEvents="none"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "bottom": 0,
+          "justifyContent": "center",
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "alignSelf": "stretch",
+            "backgroundColor": "#000",
+            "borderRadius": 8,
+            "opacity": 0.05,
+          },
+          Object {
+            "height": 48,
+          },
+          undefined,
+        ]
+      }
+    />
+  </View>
   <RCTScrollView
     collapsable={false}
     contentContainerStyle={
@@ -80,57 +113,37 @@ exports[`WheelPicker should match snapshot 1`] = `
           }
         }
       >
-        <Text
+        <View
+          collapsable={false}
           style={
-            Array [
-              Object {
-                "fontSize": 20,
-                "textAlign": "center",
-              },
-              Object {
-                "lineHeight": 48,
-              },
-              undefined,
-            ]
+            Object {
+              "transform": Array [
+                Object {
+                  "scale": 1,
+                },
+              ],
+            }
           }
         >
-          Item 1
-        </Text>
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontSize": 20,
+                  "textAlign": "center",
+                },
+                Object {
+                  "lineHeight": 48,
+                },
+                undefined,
+              ]
+            }
+          >
+            Item 1
+          </Text>
+        </View>
       </View>
     </View>
   </RCTScrollView>
-  <View
-    pointerEvents="none"
-    style={
-      Array [
-        Object {
-          "alignItems": "center",
-          "bottom": 0,
-          "justifyContent": "center",
-          "left": 0,
-          "position": "absolute",
-          "right": 0,
-          "top": 0,
-        },
-      ]
-    }
-  >
-    <View
-      style={
-        Array [
-          Object {
-            "alignSelf": "stretch",
-            "backgroundColor": "#000",
-            "borderRadius": 8,
-            "opacity": 0.05,
-          },
-          Object {
-            "height": 48,
-          },
-          undefined,
-        ]
-      }
-    />
-  </View>
 </View>
 `;
