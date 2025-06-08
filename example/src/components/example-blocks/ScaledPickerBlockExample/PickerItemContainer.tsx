@@ -44,7 +44,9 @@ const PickerItemContainer = ({
       }),
       translateY: offset.interpolate({
         inputRange,
-        outputRange: faces.map((f, i) => f.offsetY - corrections[i]!),
+        outputRange: faces.map(
+          (f, i) => f.offsetY - corrections[i]! * Math.sign(f.offsetY),
+        ),
         extrapolate: 'extend',
       }),
       scale: offset.interpolate({
