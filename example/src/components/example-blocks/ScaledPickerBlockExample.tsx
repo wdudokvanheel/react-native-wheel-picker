@@ -1,17 +1,23 @@
 import React, {useCallback, useState} from 'react';
 import WheelPicker, {
   PickerItem,
+  RenderItemContainer,
   type ValueChangedEvent,
 } from '@quidone/react-native-wheel-picker';
 import {useInit} from '@rozhkov/react-useful-hooks';
 import {withExamplePickerConfig} from '../../picker-config';
 import {Header} from '../base';
+import PickerItemContainer from './ScaledPickerBlockExample/PickerItemContainer';
 
 const ExampleWheelPicker = withExamplePickerConfig(WheelPicker);
 const createPickerItem = (index: number): PickerItem<number> => ({
   value: index,
   label: index.toString(),
 });
+
+const renderItemContainer: RenderItemContainer<PickerItem<any>> = (props) => (
+  <PickerItemContainer {...props} />
+);
 
 const ScaledPicker = () => {
   const data = useInit(() => [...Array(100).keys()].map(createPickerItem));
@@ -41,6 +47,7 @@ const ScaledPicker = () => {
           borderColor: '#0000FF',
           borderRadius: 128,
         }}
+        renderItemContainer={renderItemContainer}
         value={value}
         onValueChanged={onValueChanged}
         width={300}
