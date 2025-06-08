@@ -59,15 +59,25 @@ const PickerItemContainer = ({
     });
   }, [faces, height, index, offset]);
 
+  const scaledTranslateY = useMemo(
+    () => Animated.multiply(translateY, scale),
+    [translateY, scale],
+  );
+
+  const scaledHeight = useMemo(
+    () => Animated.multiply(scale, height),
+    [scale, height],
+  );
+
   return (
     <Animated.View
       style={[
         {
-          height,
+          height: scaledHeight,
           opacity,
           transform: [
             // first translateY, then rotateX for correct transformation.
-            {translateY},
+            {translateY: scaledTranslateY},
             {rotateX},
             {perspective: 1000}, // without this line this Animation will not render on Android https://reactnative.dev/docs/animations#bear-in-mind
           ],
