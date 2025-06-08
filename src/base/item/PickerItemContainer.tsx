@@ -64,16 +64,11 @@ const PickerItemContainer = ({
     [translateY, scale],
   );
 
-  const scaledHeight = useMemo(
-    () => Animated.multiply(scale, height),
-    [scale, height],
-  );
-
   return (
     <Animated.View
       style={[
         {
-          height: scaledHeight,
+          height,
           opacity,
           transform: [
             // first translateY, then rotateX for correct transformation.
