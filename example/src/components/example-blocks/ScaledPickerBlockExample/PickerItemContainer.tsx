@@ -1,4 +1,4 @@
-import React, {memo, useMemo} from 'react';
+import React, {memo, useMemo, useCallback} from 'react';
 import {Animated} from 'react-native';
 import {
   PickerItem,
@@ -6,8 +6,6 @@ import {
   usePickerItemHeight,
   useScrollContentOffset,
 } from '@quidone/react-native-wheel-picker';
-
-const OFFSET_FACTOR = 0.5;
 
 const PickerItemContainer = ({
   index,
@@ -19,37 +17,43 @@ const PickerItemContainer = ({
   const offset = useScrollContentOffset();
   const height = usePickerItemHeight();
 
-  const inputRange = useMemo(() => faces.map(f => height * (index + f.index)), [faces, height, index]);
+  const inputRange = useMemo(
+    () => faces.map((f) => height * (index + f.index)),
+    [faces, height, index],
+  );
+
+  const getScale = useCallback((i: number) => {
+    const map: Record<number, number> = {0: 1, 1: 0.6, 2: 0.3};
+    return map[i] ?? 0.3;
+  }, []);
 
   const {opacity, rotateX, translateY, scale} = useMemo(() => {
-    const getScale = (i: number) => {
-      const map: Record<number, number> = {0: 1, 1: 0.6, 2: 0.3};
-      return map[i] ?? 0.3;
-    };
+    const scales = faces.map((f) => getScale(Math.abs(f.index)));
+    const corrections = scales.map((s) => (1 - s) * height * 0.5);
 
     return {
       opacity: offset.interpolate({
         inputRange,
-        outputRange: faces.map(x => x.opacity),
+        outputRange: faces.map((x) => x.opacity),
         extrapolate: 'clamp',
       }),
       rotateX: offset.interpolate({
         inputRange,
-        outputRange: faces.map(x => `${x.deg}deg`),
+        outputRange: faces.map((x) => `${x.deg}deg`),
         extrapolate: 'extend',
       }),
       translateY: offset.interpolate({
         inputRange,
-        outputRange: faces.map(x => x.offsetY * OFFSET_FACTOR),
+        outputRange: faces.map((f, i) => f.offsetY - corrections[i]!),
         extrapolate: 'extend',
       }),
       scale: offset.interpolate({
         inputRange,
-        outputRange: faces.map(f => getScale(Math.abs(f.index))),
+        outputRange: scales,
         extrapolate: 'clamp',
       }),
     };
-  }, [faces, offset, inputRange]);
+  }, [faces, height, getScale, inputRange, offset]);
 
   return (
     <Animated.View
@@ -59,7 +63,8 @@ const PickerItemContainer = ({
           opacity,
           transform: [{translateY}, {rotateX}, {scale}, {perspective: 1000}],
         },
-      ]}>
+      ]}
+    >
       {renderItem({item, index, itemTextStyle})}
     </Animated.View>
   );
