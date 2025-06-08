@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {Animated, StyleProp, StyleSheet, TextStyle} from 'react-native';
+import {StyleProp, StyleSheet, Text, TextStyle} from 'react-native';
 import {usePickerItemHeight} from '../contexts/PickerItemHeightContext';
 
 type PickerItemProps = {
@@ -12,9 +12,9 @@ const PickerItem = ({value, label, itemTextStyle}: PickerItemProps) => {
   const height = usePickerItemHeight();
 
   return (
-    <Animated.Text style={[styles.root, {lineHeight: height}, itemTextStyle]}>
+    <Text style={[styles.root, {lineHeight: height}, itemTextStyle]}>
       {label ?? value}
-    </Animated.Text>
+    </Text>
   );
 };
 
