@@ -59,6 +59,34 @@ const PickerItemContainer = ({
     });
   }, [faces, height, index, offset]);
 
+  const extraTranslateY = useMemo(() => {
+    const inputRange = faces.map((f) => height * (index + f.index));
+    const outputRange = faces.map((f) => {
+      switch (f.index) {
+        case -2:
+          return 60;
+        case -1:
+          return 30;
+        case 1:
+          return -30;
+        case 2:
+          return -60;
+        default:
+          return 0;
+      }
+    });
+    return offset.interpolate({
+      inputRange,
+      outputRange,
+      extrapolate: 'clamp',
+    });
+  }, [faces, height, index, offset]);
+
+  const finalTranslateY = useMemo(
+    () => Animated.add(translateY, extraTranslateY),
+    [translateY, extraTranslateY],
+  );
+
   return (
     <Animated.View
       style={[
@@ -66,15 +94,17 @@ const PickerItemContainer = ({
           height,
           opacity,
           transform: [
-            {translateY}, // first translateY, then rotateX for correct transformation.
+            // first translateY, then rotateX for correct transformation.
+            {translateY: finalTranslateY},
             {rotateX},
-            {scale},
             {perspective: 1000}, // without this line this Animation will not render on Android https://reactnative.dev/docs/animations#bear-in-mind
           ],
         },
       ]}
     >
-      {renderItem({item, index, itemTextStyle})}
+      <Animated.View style={{transform: [{scale}]}}>
+        {renderItem({item, index, itemTextStyle})}
+      </Animated.View>
     </Animated.View>
   );
 };
