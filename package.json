@@ -38,7 +38,7 @@
     "postpublish": "rm -r ./src && cp -r ./copied-src ./src && rm -r ./copied-src",
     "release": "release-it",
     "example": "yarn --cwd example",
-    "bootstrap": "yarn example && yarn install"
+    "bootstrap": "yarn example && yarn install",
     "clean": "del-cli dest",
     "build": "yarn clean && yarn build:bob",
     "prepare": "yarn build"
