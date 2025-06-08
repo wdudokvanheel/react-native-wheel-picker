@@ -6,12 +6,14 @@ import {
   AvatarCustomizedPickerBlockExample,
   CompareWithNativeIOSBlockExample,
   SimplePickerBlockExample,
+  ScaledPickerBlockExample,
 } from './components/example-blocks';
 
 const App = () => {
   return (
     <ScrollView contentContainerStyle={styles.contentContainer}>
       <SimplePickerBlockExample />
+      <ScaledPickerBlockExample />
       <AvatarCustomizedPickerBlockExample />
       <CompareWithNativeIOSBlockExample />
       <Box height={100} />

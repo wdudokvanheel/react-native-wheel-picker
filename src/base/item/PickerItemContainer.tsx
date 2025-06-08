@@ -44,6 +44,25 @@ const PickerItemContainer = ({
     };
   }, [faces, height, index, offset]);
 
+  const {fontSize, lineHeight} = useMemo(() => {
+    const getScale = (i: number) => {
+      const map: Record<number, number> = {0: 1, 1: 0.8, 2: 0.6, 3: 0.4};
+      return map[i] ?? 0.4;
+    };
+
+    const inputRange = faces.map((f) => height * (index + f.index));
+    const outputRange = faces.map((f) => getScale(Math.abs(f.index)));
+    const scale = offset.interpolate({
+      inputRange,
+      outputRange,
+      extrapolate: 'clamp',
+    });
+    return {
+      fontSize: Animated.multiply(scale, 20),
+      lineHeight: Animated.multiply(scale, height),
+    };
+  }, [faces, height, index, offset]);
+
   return (
     <Animated.View
       style={[
@@ -58,7 +77,11 @@ const PickerItemContainer = ({
         },
       ]}
     >
-      {renderItem({item, index, itemTextStyle})}
+      {renderItem({
+        item,
+        index,
+        itemTextStyle: [itemTextStyle, {fontSize, lineHeight}] as any,
+      })}
     </Animated.View>
   );
 };
