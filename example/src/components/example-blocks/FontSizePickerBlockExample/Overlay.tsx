@@ -23,8 +23,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selection: {
-    opacity: 0.05,
-    backgroundColor: '#000',
     borderRadius: 8,
     alignSelf: 'stretch',
   },

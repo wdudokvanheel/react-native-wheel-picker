@@ -15,7 +15,7 @@ import Overlay from './Overlay';
 
 // Set this to override the overlay line height. Leave undefined for automatic
 // calculation based on the maximum scale.
-const LINE_HEIGHT: number | undefined = undefined;
+const LINE_HEIGHT: number | undefined = 92;
 
 const ExampleWheelPicker = withExamplePickerConfig(WheelPicker);
 
@@ -27,16 +27,16 @@ const createPickerItem = (index: number): PickerItem<number> => ({
 const renderItem: RenderItem<PickerItem<number>> = (props) => (
   <PickerItemComponent {...props} />
 );
-const renderItemContainer: RenderItemContainer<PickerItem<number>> = (props) => (
-  <PickerItemContainer {...props} />
-);
+const renderItemContainer: RenderItemContainer<PickerItem<number>> = (
+  props,
+) => <PickerItemContainer {...props} />;
 const renderOverlay: RenderOverlay = (props) => (
   <Overlay {...props} lineHeight={LINE_HEIGHT} />
 );
 
 const FontSizePicker = () => {
   const data = useInit(() => [...Array(100).keys()].map(createPickerItem));
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(10);
 
   const onValueChanged = useCallback(
     ({item: {value: val}}: ValueChangedEvent<PickerItem<number>>) => {
@@ -51,6 +51,20 @@ const FontSizePicker = () => {
       <ExampleWheelPicker
         data={data}
         value={value}
+        itemHeight={92}
+        itemTextStyle={{
+          fontSize: 86,
+          fontWeight: 'bold',
+          color: '#000',
+        }}
+        overlayItemStyle={{
+          backgroundColor: '#FF0',
+          opacity: 1,
+          borderStyle: 'solid',
+          borderWidth: 16,
+          borderColor: '#000',
+          borderRadius: 92,
+        }}
         onValueChanged={onValueChanged}
         renderItem={renderItem}
         renderItemContainer={renderItemContainer}
