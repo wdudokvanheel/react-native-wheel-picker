@@ -41,7 +41,7 @@
     "bootstrap": "yarn example && yarn install",
     "clean": "del-cli dest",
     "build": "yarn clean && yarn build:bob",
-    "prepare": "yarn build"
+    "prepare": "yarn install && yarn build"
   },
   "keywords": [
     "react-native",
