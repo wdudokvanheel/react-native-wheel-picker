@@ -1,10 +1,14 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import WheelPicker, {
   PickerItem,
   type ValueChangedEvent,
+  type RenderItem,
+  usePickerItemHeight,
+  useScrollContentOffset,
 } from '@quidone/react-native-wheel-picker';
+import type {TextStyle, StyleProp} from 'react-native';
 import {useInit} from '@rozhkov/react-useful-hooks';
-import {View} from 'react-native';
+import {View, Animated} from 'react-native';
 import {withExamplePickerConfig} from '../../picker-config';
 import {Header} from '../base';
 
@@ -13,6 +17,41 @@ const createPickerItem = (index: number): PickerItem<number> => ({
   value: index,
   label: index.toString(),
 });
+
+const Item = ({
+  item: {value: itemValue, label},
+  index,
+  itemTextStyle,
+}: {
+  item: PickerItem<number>;
+  index: number;
+  itemTextStyle: StyleProp<TextStyle> | undefined;
+}) => {
+  const height = usePickerItemHeight();
+  const offset = useScrollContentOffset();
+  const inputRange = useMemo(
+    () => [height * (index - 1), height * index, height * (index + 1)],
+    [height, index],
+  );
+
+  const color = useMemo(
+    () =>
+      offset.interpolate({
+        inputRange,
+        outputRange: ['black', 'red', 'black'],
+        extrapolate: 'clamp',
+      }),
+    [inputRange, offset],
+  );
+
+  return (
+    <Animated.Text
+      style={[{lineHeight: height, textAlign: 'center', color}, itemTextStyle]}
+    >
+      {label ?? itemValue}
+    </Animated.Text>
+  );
+};
 
 const ScaledPicker = () => {
   const data = useInit(() => [...Array(100).keys()].map(createPickerItem));
@@ -25,12 +64,18 @@ const ScaledPicker = () => {
     [],
   );
 
+  const renderItem: RenderItem<PickerItem<number>> = useCallback(
+    (props) => <Item {...props} />,
+    [],
+  );
+
   return (
     <>
       <Header title={'Scaled Picker'} />
       <View style={{backgroundColor: 'gray'}}>
         <ExampleWheelPicker
           data={data}
+          renderItem={renderItem}
           itemHeight={108}
           itemTextStyle={{
             fontSize: 72,
