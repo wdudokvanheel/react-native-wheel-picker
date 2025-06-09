@@ -34,22 +34,56 @@ const Item = ({
     [height, index],
   );
 
-  const color = useMemo(
+  const activeOpacity = useMemo(
     () =>
       offset.interpolate({
         inputRange,
-        outputRange: ['black', 'red', 'black'],
+        outputRange: [0, 1, 0],
+        extrapolate: 'clamp',
+      }),
+    [inputRange, offset],
+  );
+  const inactiveOpacity = useMemo(
+    () =>
+      offset.interpolate({
+        inputRange,
+        outputRange: [1, 0, 1],
         extrapolate: 'clamp',
       }),
     [inputRange, offset],
   );
 
   return (
-    <Animated.Text
-      style={[{lineHeight: height, textAlign: 'center', color}, itemTextStyle]}
-    >
-      {label ?? itemValue}
-    </Animated.Text>
+    <Animated.View style={{height, justifyContent: 'center'}}>
+      <Animated.Text
+        style={[
+          {
+            position: 'absolute',
+            lineHeight: height,
+            textAlign: 'center',
+            opacity: inactiveOpacity,
+            color: 'black',
+          },
+          itemTextStyle,
+        ]}
+      >
+        {label ?? itemValue}
+      </Animated.Text>
+      <Animated.Text
+        style={[
+          {
+            position: 'absolute',
+            lineHeight: height,
+            textAlign: 'center',
+            opacity: activeOpacity,
+            color: 'red',
+          },
+          itemTextStyle,
+        ]}
+      >
+        {label ?? itemValue}
+      </Animated.Text>
+    </Animated.View>
   );
 };
 
