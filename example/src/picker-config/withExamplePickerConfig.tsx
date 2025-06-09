@@ -5,20 +5,7 @@ import type {
   WheelPickerProps,
 } from '@quidone/react-native-wheel-picker';
 import {usePickerConfig} from './PickerConfigProvider';
-import WheelPickerFeedback from '@quidone/react-native-wheel-picker-feedback';
 import {withVirtualized} from '@quidone/react-native-wheel-picker';
-
-const useCallFeedback = () => {
-  const {enabledSound, enabledImpact} = usePickerConfig();
-  return useMemo(() => {
-    switch (true) {
-      case enabledSound && enabledImpact: return WheelPickerFeedback.triggerSoundAndImpact;  // eslint-disable-line prettier/prettier
-      case enabledSound: return WheelPickerFeedback.triggerSound; // eslint-disable-line prettier/prettier
-      case enabledImpact: return WheelPickerFeedback.triggerImpact; // eslint-disable-line prettier/prettier
-      default: return () => {}; // eslint-disable-line prettier/prettier
-    }
-  }, [enabledImpact, enabledSound]);
-};
 
 const withExamplePickerConfig = (
   WrappedComponent: FC<WheelPickerProps<any>>,
@@ -28,14 +15,12 @@ const withExamplePickerConfig = (
     ...restProps
   }: WheelPickerProps<any>) => {
     const {enabledVirtualized, readOnly, visibleItemCount} = usePickerConfig();
-    const callFeedback = useCallFeedback();
 
     const onValueChanging = useCallback<OnValueChanging<any>>(
       (...args) => {
-        callFeedback();
         onValueChangingProp?.(...args);
       },
-      [callFeedback, onValueChangingProp],
+      [onValueChangingProp],
     );
 
     const ResultComponent = useMemo(() => {
