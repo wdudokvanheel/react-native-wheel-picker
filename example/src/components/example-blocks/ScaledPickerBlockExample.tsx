@@ -29,14 +29,19 @@ const Item = ({
 }) => {
   const height = usePickerItemHeight();
   const offset = useScrollContentOffset();
+  const inputRange = useMemo(
+    () => [height * (index - 1), height * index, height * (index + 1)],
+    [height, index],
+  );
+
   const color = useMemo(
     () =>
       offset.interpolate({
-        inputRange: [height * (index - 1), height * index, height * (index + 1)],
+        inputRange,
         outputRange: ['black', 'red', 'black'],
         extrapolate: 'clamp',
       }),
-    [height, index, offset],
+    [inputRange, offset],
   );
 
   return (
