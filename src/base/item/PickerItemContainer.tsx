@@ -85,12 +85,12 @@ const PickerItemContainer = ({
       extrapolate: 'clamp',
     });
   }, [faces, height, index, offset]);
+  console.info(rotateX);
 
   const finalTranslateY = useMemo(
     () => Animated.add(translateY, extraTranslateY),
     [translateY, extraTranslateY],
   );
-
   return (
     <Animated.View
       style={[
