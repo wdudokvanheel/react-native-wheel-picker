@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@quidone/react-native-wheel-picker": ["./src/index"],
+      "@wdudokvanheel/react-native-wheel-picker": ["./src/index"],
       "@implementation/base": ["./src/base/index"],
       "@implementation/virtualized": ["./src/hoc/virtualized/index"],
       "@utils/react": ["./src/utils/react/index"],

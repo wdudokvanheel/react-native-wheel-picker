@@ -1,22 +1,8 @@
-[AUTHOR]: https://github.com/rozhkovs
-[FEEDBACK_GITHUB]: https://github.com/quidone/react-native-wheel-picker-feedback
-[EXPO_SNACK]: https://snack.expo.dev/@sergeyrozhkov/quidone-react-native-wheel-picker
+# Fork notes
+This is a fork of [Quidone's WheelPicker](https://github.com/quidone/react-native-wheel-picker) and heavily modified for a specific use case.
+See the Scaled Picker example for more information.
 
-# React Native Wheel Picker
-<p>
-  <a href="https://github.com/quidone/react-native-wheel-picker/blob/HEAD/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="React Native Wheel Picker is released under the MIT license." />
-  </a>
-  <a href="https://github.com/quidone/react-native-wheel-picker/actions/workflows/tests.yml">
-    <img src="https://github.com/quidone/react-native-wheel-picker/actions/workflows/tests.yml/badge.svg" alt="CI Tests" />
-  </a>
-  <a href="https://www.npmjs.com/package/@quidone/react-native-wheel-picker">
-    <img src="https://img.shields.io/npm/v/@quidone/react-native-wheel-picker?color=brightgreen&label=npm%20package" alt="Current npm package version." />
-  </a>
-  <a href="https://www.npmjs.com/package/@quidone/react-native-wheel-picker">
-    <img src="https://img.shields.io/npm/dw/@quidone/react-native-wheel-picker" alt="Number of downloads per week." />
-  </a>
-</p>
+
 
 A flexible React Native Wheel Picker for iOS and Android without using the native side.
 

@@ -1,6 +1,6 @@
 {
-  "name": "@quidone/react-native-wheel-picker",
-  "version": "1.4.1",
+  "name": "@wdudokvanheel/react-native-wheel-picker",
+  "version": "1.5",
   "description": "Picker is a UI component for selecting an item from a list of options.",
   "main": "dest/commonjs/index",
   "module": "dest/module/index",
@@ -53,13 +53,16 @@
     "select",
     "field"
   ],
-  "repository": "https://github.com/quidone/react-native-wheel-picker",
-  "author": "Sergey Rozhkov <rozhkovse1@gmail.com> (https://github.com/quidone/react-native-wheel-picker)",
+  "repository": "https://github.com/wdudokvanheel/react-native-wheel-picker",
+  "author": "Wesley Dudok van Heel",
+  "contributors": [
+    "Sergey Rozhkov <rozhkovse1@gmail.com> (https://github.com/quidone/react-native-wheel-picker)"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/quidone/react-native-wheel-picker/issues"
+    "url": "https://github.com/wdudokvanheel/react-native-wheel-picker/issues"
   },
-  "homepage": "https://github.com/quidone/react-native-wheel-picker#readme",
+  "homepage": "https://github.com/wdudokvanheel/react-native-wheel-picker#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
