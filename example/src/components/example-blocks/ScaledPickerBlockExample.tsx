@@ -78,7 +78,7 @@ const Item = ({
             textAlign: 'center',
             width: '100%',
             opacity: activeOpacity,
-            color: 'red',
+            color: 'white',
           },
           itemTextStyle,
         ]}
@@ -108,25 +108,28 @@ const ScaledPicker = () => {
   return (
     <>
       <Header title={'Scaled Picker'} />
-      <View style={{backgroundColor: 'gray'}}>
+      <View style={{backgroundColor: '#F7F4F2'}}>
         <ExampleWheelPicker
           data={data}
           renderItem={renderItem}
-          itemHeight={108}
+          style={{
+            marginVertical: -150,
+          }}
+          itemHeight={128}
           itemTextStyle={{
             fontSize: 72,
             fontWeight: 'bold',
           }}
           overlayItemStyle={{
             opacity: 1,
-            backgroundColor: '#F0F',
+            backgroundColor: '#9BB068',
             borderWidth: 8,
-            borderColor: '#0000FF',
+            borderColor: '#E5EAD7',
             borderRadius: 128,
           }}
           value={value}
           onValueChanged={onValueChanged}
-          width={250}
+          width={200}
         />
       </View>
     </>

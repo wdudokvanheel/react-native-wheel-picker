@@ -23,18 +23,13 @@ const PickerItemContainer = ({
   const offset = useScrollContentOffset();
   const height = usePickerItemHeight();
 
-  const {opacity, rotateX, translateY} = useMemo(() => {
+  const {opacity, translateY} = useMemo(() => {
     const inputRange = faces.map((f) => height * (index + f.index));
     return {
       opacity: offset.interpolate({
         inputRange: inputRange,
         outputRange: faces.map((x) => x.opacity),
         extrapolate: 'clamp',
-      }),
-      rotateX: offset.interpolate({
-        inputRange: inputRange,
-        outputRange: faces.map((x) => `${x.deg}deg`),
-        extrapolate: 'extend',
       }),
       translateY: offset.interpolate({
         inputRange: inputRange,
@@ -46,7 +41,7 @@ const PickerItemContainer = ({
 
   const scale = useMemo(() => {
     const getScale = (i: number) => {
-      const map: Record<number, number> = {0: 1, 1: 0.6, 2: 0.3};
+      const map: Record<number, number> = {0: 1, 1: 0.6, 2: 0.3, 3: 0.1};
       return map[i] ?? 0.3;
     };
 
@@ -66,13 +61,13 @@ const PickerItemContainer = ({
         case -3:
           return -70;
         case -2:
-          return -50;
+          return -70;
         case -1:
-          return -20;
+          return -25;
         case 1:
-          return 20;
+          return 25;
         case 2:
-          return 50;
+          return 70;
         case 3:
           return 70;
         default:
@@ -85,7 +80,6 @@ const PickerItemContainer = ({
       extrapolate: 'clamp',
     });
   }, [faces, height, index, offset]);
-  console.info(rotateX);
 
   const finalTranslateY = useMemo(
     () => Animated.add(translateY, extraTranslateY),
@@ -97,12 +91,7 @@ const PickerItemContainer = ({
         {
           height,
           opacity,
-          transform: [
-            // first translateY, then rotateX for correct transformation.
-            {translateY: finalTranslateY},
-            // {rotateX},
-            {perspective: 1000}, // without this line this Animation will not render on Android https://reactnative.dev/docs/animations#bear-in-mind
-          ],
+          transform: [{translateY: finalTranslateY}, {perspective: 1000}],
         },
       ]}
     >
