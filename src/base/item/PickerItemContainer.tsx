@@ -23,18 +23,13 @@ const PickerItemContainer = ({
   const offset = useScrollContentOffset();
   const height = usePickerItemHeight();
 
-  const {opacity, rotateX, translateY} = useMemo(() => {
+  const {opacity, translateY} = useMemo(() => {
     const inputRange = faces.map((f) => height * (index + f.index));
     return {
       opacity: offset.interpolate({
         inputRange: inputRange,
         outputRange: faces.map((x) => x.opacity),
         extrapolate: 'clamp',
-      }),
-      rotateX: offset.interpolate({
-        inputRange: inputRange,
-        outputRange: faces.map((x) => `${x.deg}deg`),
-        extrapolate: 'extend',
       }),
       translateY: offset.interpolate({
         inputRange: inputRange,
@@ -61,24 +56,15 @@ const PickerItemContainer = ({
 
   const extraTranslateY = useMemo(() => {
     const inputRange = faces.map((f) => height * (index + f.index));
-    const outputRange = faces.map((f) => {
-      switch (f.index) {
-        case -3:
-          return -70;
-        case -2:
-          return -50;
-        case -1:
-          return -20;
-        case 1:
-          return 20;
-        case 2:
-          return 50;
-        case 3:
-          return 70;
-        default:
-          return 0;
-      }
-    });
+    const ratioMap: Record<number, number> = {
+      '-3': -70 / 48,
+      '-2': -50 / 48,
+      '-1': -20 / 48,
+      '1': 20 / 48,
+      '2': 50 / 48,
+      '3': 70 / 48,
+    };
+    const outputRange = faces.map((f) => (ratioMap[f.index] ?? 0) * height);
     return offset.interpolate({
       inputRange,
       outputRange,
