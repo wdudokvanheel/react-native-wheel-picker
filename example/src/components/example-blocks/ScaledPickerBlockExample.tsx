@@ -19,10 +19,10 @@ const createPickerItem = (index: number): PickerItem<number> => ({
 });
 
 const Item = ({
-  item: {value: itemValue, label},
-  index,
-  itemTextStyle,
-}: {
+                item: {value: itemValue, label},
+                index,
+                itemTextStyle,
+              }: {
   item: PickerItem<number>;
   index: number;
   itemTextStyle: StyleProp<TextStyle> | undefined;

@@ -4,7 +4,6 @@ import {useScrollContentOffset} from '../contexts/ScrollContentOffsetContext';
 import {usePickerItemHeight} from '../contexts/PickerItemHeightContext';
 import type {RenderItem} from '../types';
 import type {Faces} from './faces';
-
 type PickerItemContainerProps = {
   item: any;
   index: number;
@@ -12,17 +11,15 @@ type PickerItemContainerProps = {
   renderItem: RenderItem<any>;
   itemTextStyle: StyleProp<TextStyle> | undefined;
 };
-
 const PickerItemContainer = ({
-  index,
-  item,
-  faces,
-  renderItem,
-  itemTextStyle,
-}: PickerItemContainerProps) => {
+                               index,
+                               item,
+                               faces,
+                               renderItem,
+                               itemTextStyle,
+                             }: PickerItemContainerProps) => {
   const offset = useScrollContentOffset();
   const height = usePickerItemHeight();
-
   const {opacity, translateY} = useMemo(() => {
     const inputRange = faces.map((f) => height * (index + f.index));
     return {
@@ -38,13 +35,16 @@ const PickerItemContainer = ({
       }),
     };
   }, [faces, height, index, offset]);
-
   const scale = useMemo(() => {
     const getScale = (i: number) => {
-      const map: Record<number, number> = {0: 1, 1: 0.6, 2: 0.3, 3: 0.1};
+      const map: Record<number, number> = {
+        0: 1,
+        1: 0.6,
+        2: 0.3,
+        3: 0.1,
+      };
       return map[i] ?? 0.3;
     };
-
     const inputRange = faces.map((f) => height * (index + f.index));
     const outputRange = faces.map((f) => getScale(Math.abs(f.index)));
     return offset.interpolate({
@@ -53,7 +53,6 @@ const PickerItemContainer = ({
       extrapolate: 'clamp',
     });
   }, [faces, height, index, offset]);
-
   const extraTranslateY = useMemo(() => {
     const inputRange = faces.map((f) => height * (index + f.index));
     const outputRange = faces.map((f) => {
@@ -80,7 +79,6 @@ const PickerItemContainer = ({
       extrapolate: 'clamp',
     });
   }, [faces, height, index, offset]);
-
   const finalTranslateY = useMemo(
     () => Animated.add(translateY, extraTranslateY),
     [translateY, extraTranslateY],
@@ -91,15 +89,33 @@ const PickerItemContainer = ({
         {
           height,
           opacity,
-          transform: [{translateY: finalTranslateY}, {perspective: 1000}],
+          transform: [
+            {
+              translateY: finalTranslateY,
+            },
+            {
+              perspective: 1000,
+            },
+          ],
         },
       ]}
     >
-      <Animated.View style={{transform: [{scale}]}}>
-        {renderItem({item, index, itemTextStyle})}
+      <Animated.View
+        style={{
+          transform: [
+            {
+              scale,
+            },
+          ],
+        }}
+      >
+        {renderItem({
+          item,
+          index,
+          itemTextStyle,
+        })}
       </Animated.View>
     </Animated.View>
   );
 };
-
 export default memo(PickerItemContainer);
